@@ -37,7 +37,7 @@ class ElizaServerTest {
         assertEquals("The doctor is in.", list[0])
     }
 
-    @Disabled
+    //@Disabled
     @Test
     fun onChat() {
         val latch = CountDownLatch(4)
@@ -47,7 +47,10 @@ class ElizaServerTest {
         container.connectToServer(client, URI("ws://localhost:$port/eliza"))
         latch.await()
         // assertEquals(XXX, list.size) COMPLETE ME
+        assert(list.size >= 4)
         // assertEquals(XXX, list[XXX]) COMPLETE ME
+        val listResponses = listOf("Why not?", "Are you sure?")
+        assert(list[3] in listResponses)
     }
 
 }
@@ -71,5 +74,9 @@ class ElizaOnOpenMessageHandlerToComplete(private val list: MutableList<String>,
         // if (COMPLETE ME) {
         //    COMPLETE ME
         // }
+
+        if(latch.count == 1L){
+            session.basicRemote.sendText("no")
+        }
     }
 }
